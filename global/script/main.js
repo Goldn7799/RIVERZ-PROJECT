@@ -7,6 +7,22 @@ const Clear = () => {
     root = '';
 }
 
+const load = {
+    "mrMiyagi": ()=>{
+        Clear();
+        root += `
+        <center style="margin-top: 220px"><div class="mr-miyagi">
+          <div class="mr-miyagi__line"></div>
+          <div class="mr-miyagi__line"></div>
+          <div class="mr-miyagi__line"></div>
+          <div class="mr-miyagi__line"></div>
+          <div class="mr-miyagi__line"></div>
+          <div class="mr-miyagi__line"></div>  
+        </div></center>`;
+        document.getElementById('root').innerHTML = root;
+    }
+}
+
 const NavBar = {
     "home":() => {
         root += `<nav class="navbar navbar-expand-lg bg-light">
@@ -17,26 +33,34 @@ const NavBar = {
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <li onclick="HomePage.home()" class="nav-item">
+            <a id="nav1" class="nav-link" aria-current="page" href="#">Pesan</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+          <li onclick="HomePage.grup()" class="nav-item">
+            <a id="nav2" class="nav-link" href="#">Grup</a>
+          </li>
+          <li onclick="HomePage.status()" class="nav-item">
+            <a id="nav3" class="nav-link" href="#">Status Global</a>
+          </li>
+          </li>
+          <li onclick="HomePage.cariTeman()" class="nav-item">
+            <a id="nav4" class="nav-link" href="#">Cari Teman</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
+              <b style="font-size: large;">:</b>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Pesan Baru</a></li>
+              <li><a class="dropdown-item" href="#">Grup Baru</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item text-primary" href="#">Library</a></li>
+              <li><a class="dropdown-item text-danger" onclick="logout()" href="#">Keluar</a></li>
             </ul>
           </li>
-          <li class="nav-item">
+          <!--<li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
-          </li>
+          </li>-->
         </ul>
       </div>
     </div>
@@ -152,7 +176,7 @@ const EmailPage = {
         document.getElementById('sigin').classList.add('active');
         document.getElementById('register').classList.remove('active');
         document.getElementById('forgotpassword').classList.remove('active');
-    },100)
+    },150)
     },
     "register":() => {
         Clear();
@@ -192,7 +216,7 @@ const EmailPage = {
         document.getElementById('sigin').classList.remove('active');
         document.getElementById('register').classList.add('active');
         document.getElementById('forgotpassword').classList.remove('active');
-    },100)
+    },150)
     },
     "forgotPassword":() => {
         Clear();
@@ -220,7 +244,7 @@ const EmailPage = {
         document.getElementById('sigin').classList.remove('active');
         document.getElementById('register').classList.remove('active');
         document.getElementById('forgotpassword').classList.add('active');
-    },100)
+    },150)
     
     }
 }
@@ -245,10 +269,57 @@ const verifyEmail = {
 }
 
 const HomePage = {
-    "Home": () => {
+    "home": () => {
         Clear();
         NavBar.home();
         root += `MASIH KOSONG LOL`;
+        setTimeout(() => {
+            document.getElementById('nav1').classList.add('active');
+            document.getElementById('nav2').classList.remove('active');
+            document.getElementById('nav3').classList.remove('active');
+            document.getElementById('nav4').classList.remove('active');
+        },150)
+    },
+    "grup": () => {
+        Clear();
+        NavBar.home();
+        root += `Grup`;
+        setTimeout(() => {
+            document.getElementById('nav1').classList.remove('active');
+            document.getElementById('nav2').classList.add('active');
+            document.getElementById('nav3').classList.remove('active');
+            document.getElementById('nav4').classList.remove('active');
+        },150)
+    },
+    "status": () => {
+        Clear();
+        NavBar.home();
+        root += `Status Global`;
+        setTimeout(() => {
+            document.getElementById('nav1').classList.remove('active');
+            document.getElementById('nav2').classList.remove('active');
+            document.getElementById('nav3').classList.add('active');
+            document.getElementById('nav4').classList.remove('active');
+        },150)
+    },
+    "cariTeman": () => {
+        Clear();
+        NavBar.home();
+        root += `Cari Jodoh`;
+        setTimeout(() => {
+            document.getElementById('nav1').classList.remove('active');
+            document.getElementById('nav2').classList.remove('active');
+            document.getElementById('nav3').classList.remove('active');
+            document.getElementById('nav4').classList.add('active');
+        },150)
+    },
+    "start": () => {
+        Clear();
+        // NavBar.login()
+        root += `<center>
+        <h1 class="riverz">RIVERZ</h1>
+        <button onclick="HomePage.home()" class="riverzbtn">Start -></button>
+    </center>`;
     }
 }
 
@@ -266,7 +337,7 @@ auth.onAuthStateChanged(user => {
             localStorage.setItem('verify', 'false');
         }else {
             localStorage.setItem('verify', 'true');
-            HomePage.Home();
+            HomePage.start();
         }
     }else {
         Clear();
@@ -471,9 +542,10 @@ window.setInterval(() => {
             document.getElementById('root').innerHTML = malert;
         }else {
             if (root != current){
+                // console.log('wkwk')
                 document.getElementById('root').innerHTML = root;
                 current = root;
             }
         }
     })
-}, 100);
+}, 123);
