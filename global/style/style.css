@@ -584,7 +584,7 @@ body {
 }
 
 .chat .chat-history .my-message {
-    background: #efefef
+    background: #ffffff
 }
 
 .chat .chat-history .my-message:after {
@@ -602,12 +602,12 @@ body {
 }
 
 .chat .chat-history .other-message {
-    background: #e8f1f3;
+    background: #ffffff;
     text-align: right
 }
 
 .chat .chat-history .other-message:after {
-    border-bottom-color: #e8f1f3;
+    border-bottom-color: #ffffff;
     left: 93%
 }
 
@@ -759,4 +759,49 @@ content: "";
 flex: 1;
 height: 1px;
 background: #eee;
+}
+
+/* awok */
+
+  .gradient-custom-lain {
+    /* fallback for old browsers */
+    background: #f6d365;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgb(27, 183, 245), #657bf6);
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgb(255, 251, 9), #ffd828)
+  }
+
+
+  .scroll{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  }
+  
+  .input-pesan{
+    height: 50%;
+    width: 90%;
+    padding: 20px;
+    margin-top: 10px;
+    font-size: 17px;
+    outline: none;
+  }
+
+.animbtn {
+    background-color: white;
+    transition-delay: 0s;
+    transition-duration: 250ms;
+    transition-property: background-color;
+}
+
+.animbtn:hover {
+    background-color: rgb(0, 172, 240);
+}
+
+.list-group-item {
+    margin-top: 10px;
+    border: rgb(0, 0, 0);
 }
