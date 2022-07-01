@@ -656,7 +656,8 @@ auth.onAuthStateChanged(user => {
         rdb.goOnline();
         localStorage.setItem('useruid', user.uid)
         var data = {
-            "verify": user.emailVerified
+            "verify": user.emailVerified,
+            "last_login": Date()
         }; 
         rdb.ref('users').child(auth.currentUser.uid).update(data);
         rdb.ref(`users/${user.uid}`).on('value', (data) => {
