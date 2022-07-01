@@ -586,10 +586,8 @@ const HomePage = {
             <div id="total-member-progress" class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><center><p class="mt-1"><span id="ver-member"></span>/<span id="all-member"></span> User Verivied</p></center></div>
           </div>
         </div>
-          <div id="result-cari"><div class="spinner-border text-primary mt-2" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          Loading...
+          <div id="result-cari">
+          <center><div style="margin-top: 100px;" class="race-by"></div></center>
         </div>
       </div>`;
         setTimeout(() => {
@@ -656,10 +654,15 @@ function deletemsg(deleteMessage, deleteKey) {
 auth.onAuthStateChanged(user => {
     if (user) {
         rdb.goOnline();
+        localStorage.setItem('useruid', user.uid)
         var data = {
             "verify": user.emailVerified
         }; 
         rdb.ref('users').child(auth.currentUser.uid).update(data);
+        rdb.ref(`users/${user.uid}`).on('value', (data) => {
+            localStorage.setItem('username', data.val().username);
+            localStorage.setItem('proflink', data.val().potho);
+        })
         if (user.emailVerified == false){
             verifyEmail.Verify();
             localStorage.setItem('verify', 'false');
@@ -903,39 +906,46 @@ function cariTemanLoad() {
             var akunList = '';
             alu = 0;
             aluv = 0;
+            var fotolink = '';
+            time = 0;
             akun.forEach(data => {
-                alu += 1;
-                if (data.val().foto == null){
-                    var fotolink = 'global/sources/icon.jpg';
-                } else{
-                    var fotolink = data.val().foto;
-                };
-                if (data.key == auth.currentUser.uid) {
-                    aluv += 1;
-                    akunList += '';
-                    document.getElementById('result-cari').innerHTML = '';
-                }
-                else if (data.val().blue != undefined) {
-                    aluv += 1;
-                    var img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eo_circle_light-blue_checkmark.svg/2048px-Eo_circle_light-blue_checkmark.svg.png'
-                    akunList += `<li onclick="infouserlain('${data.val().username}', '${data.val().bio}', '${fotolink}', '${data.val().verify}', '${data.val().blue}')" class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">${data.val().username}<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eo_circle_light-blue_checkmark.svg/2048px-Eo_circle_light-blue_checkmark.svg.png" height="15" width="15"></div></div><span class="badge bg-primary rounded-pill"><img alt='Avatar' height='30' width='30' src="${fotolink}"></img></span></li>`
-                    document.getElementById('result-cari').innerHTML = '';
-                }
-                else if (data.val().verify == false) {
-                    //console.log(data.val().verify)
-                    akunList += `<li onclick="infouserlain('${data.val().username}', '${data.val().bio}', '${fotolink}', '${data.val().verify}')" class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="text-danger fw-bold">${data.val().username}</div></div><span class="badge bg-primary rounded-pill"><img alt='Avatar' height='30' width='30' src="${fotolink}"></img></span></li>`
-                    document.getElementById('result-cari').innerHTML = '';
-                }
-                else {
-                    aluv += 1;
-                    akunList += `<li onclick="infouserlain('${data.val().username}', '${data.val().bio}', '${fotolink}', '${data.val().verify}')" class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">${data.val().username}</div></div><span class="badge bg-primary rounded-pill"><img alt='Avatar' height='30' width='30' src="${fotolink}"></img></span></li>`
-                    document.getElementById('result-cari').innerHTML = '';
-                }
-                total = aluv / alu * 100;
-                document.getElementById('result-cari').innerHTML += akunList;
-                document.getElementById('all-member').innerHTML = `${alu}`;
-                document.getElementById('ver-member').innerHTML = `${aluv}`;
-                document.getElementById('total-member-progress').style.width = `${total+'%'}`
+                setTimeout(()=>{
+                    alu += 1;
+                    fotolink = '';
+                    if (data.val().potho == null){
+                        fotolink = 'global/sources/icon.jpg';
+                    } else{
+                        fotolink = data.val().potho;
+                    };
+                    if (data.key == auth.currentUser.uid) {
+                        aluv += 1;
+                        akunList += '';
+                        document.getElementById('result-cari').innerHTML = '';
+                    }
+                    else if (data.val().blue != undefined) {
+                        aluv += 1;
+                        var img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eo_circle_light-blue_checkmark.svg/2048px-Eo_circle_light-blue_checkmark.svg.png'
+                        akunList += `<li onclick="infouserlain('${data.val().username}', '${data.val().bio}', '${fotolink}', '${data.val().verify}', '${data.val().blue}')" class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">${data.val().username}<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eo_circle_light-blue_checkmark.svg/2048px-Eo_circle_light-blue_checkmark.svg.png" height="15" width="15"></div></div><span class="badge bg-primary rounded-pill"><img alt='Avatar' height='30' width='30' src="${fotolink}"></img></span></li>`
+                        document.getElementById('result-cari').innerHTML = '';
+                    }
+                    else if (data.val().verify == false) {
+                        //console.log(data.val().verify)
+                        akunList += `<li onclick="infouserlain('${data.val().username}', '${data.val().bio}', '${fotolink}', '${data.val().verify}')" class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="text-danger fw-bold">${data.val().username}</div></div><span class="badge bg-primary rounded-pill"><img alt='Avatar' height='30' width='30' src="${fotolink}"></img></span></li>`
+                        document.getElementById('result-cari').innerHTML = '';
+                    }
+                    else {
+                        aluv += 1;
+                        akunList += `<li onclick="infouserlain('${data.val().username}', '${data.val().bio}', '${fotolink}', '${data.val().verify}')" class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto"><div class="fw-bold">${data.val().username}</div></div><span class="badge bg-primary rounded-pill"><img alt='Avatar' height='30' width='30' src="${fotolink}"></img></span></li>`
+                        document.getElementById('result-cari').innerHTML = '';
+                    }
+                    total = aluv / alu * 100;
+                    document.getElementById('result-cari').innerHTML += akunList;
+                    document.getElementById('all-member').innerHTML = `${alu}`;
+                    document.getElementById('ver-member').innerHTML = `${aluv}`;
+                    document.getElementById('total-member-progress').style.width = `${total+'%'}`
+                    time += 1000;
+                }, time)
+                
             })
         }
     });
